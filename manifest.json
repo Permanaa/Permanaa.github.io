@@ -1,0 +1,21 @@
+{
+    "name": "Soccer Information",
+    "short_name": "Soccer News",
+    "description": "Aplikasi informasi sepak bola",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "theme_color": "#FF5252",
+    "icons": [
+        {
+            "src": "icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        }
+    ],
+    "gcm_sender_id": "353410677565"
+}

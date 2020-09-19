@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Soccer Information"/>
+    <meta name="theme-color" content="#FF5252"/>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="shortcut icon" href="icon-144x144.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Soccer News</title>
+</head>
+<body>
+    <nav class="white" role="navigation">
+        <div class="nav-wrapper container">
+            <a href="#" class="brand-logo blue-grey-text tex-darken-4" id="logo-container">
+                Soccer News
+            </a>
+            <a href="./index.html" class="sidenav-trigger blue-grey-text tex-darken-4" data-target="nav-mobile">
+                <i class="material-icons">arrow_back</i>
+            </a>
+            <ul class="topnav right hide-on-med-and-down"></ul>
+            <ul class="sidenav" id="nav-mobile"></ul>
+        </div>
+    </nav>
+
+    <div class="container blue-grey-text tex-darken-4" id="body-content"></div>
+
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red accent-2" id="save">
+            
+        </a>
+    </div>
+
+    <script type="text/javascript" src="https://unpkg.com/snarkdown@1.0.2/dist/snarkdown.umd.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/idb.js"></script>
+    <script src="js/db.js"></script>
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker
+                    .register("/service-worker.js")
+                    .then(() => {
+                        console.log("Pendaftaran ServiceWorker berhasil");
+                    })
+                    .catch(() => {
+                        console.log("Pendaftaran ServiceWorker gagal");
+                    })
+            })
+        } else {
+            console.log("ServiceWorker belum didukung browser ini");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            var urlParams = new URLSearchParams(window.location.search)
+            var isFromSaved = urlParams.get("saved")
+
+            var btnSave = document.getElementById("save")
+            // var btnDelete = document.getElementById("delete")
+
+            
+            var item
+            
+            if (isFromSaved) {
+                btnSave.innerHTML = `<i class="large material-icons">delete</i>`
+                item = getSavedTeamById()
+                btnSave.onclick = () => {
+                    item.then(data => {
+                        deleteById(data.id)
+                    })
+                }
+            } else {
+                btnSave.innerHTML = `<i class="large material-icons">save</i>`
+                item = getTeamById()
+                btnSave.onclick = () => {
+                    item.then(data => {
+                        saveForLater(data)
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>
